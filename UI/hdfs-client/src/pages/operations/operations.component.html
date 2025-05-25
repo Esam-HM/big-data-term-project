@@ -1,5 +1,9 @@
-<ng-container *ngIf="hadoopStatus else loading">
-    <ng-container *ngIf="hadoopStatus.status != 'error' else noConnection">
+<!-- 
+ *ngIf="hadoopStatus else loading" 
+ *ngIf="hadoopStatus.status != 'error' else noConnection"
+ -->
+<ng-container >
+    <ng-container >
         <app-spinner [isVisible]="showSpinner" message="Wait Please..."></app-spinner>
         <app-alert-message
             [isVisible]="showAlertMessage"
@@ -23,17 +27,39 @@
                 </div>
             </div>
             <div class="custom-container">
+                <div class="row text-center mt-5">
+                    <h2>HDFS Operations</h2>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6 text-center">
+                        <button routerLink="/ops/files-ops" class="btn btn-warning">Files Operations</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button class="btn btn-warning">Directory Operations</button>
+                    </div>
+                </div>
                 <div class="row mt-5">
                     <div class="col-6 text-center">
                         <h3>HDFS Operations</h3>
                         <div class="d-grid">
-                            <button routerLink="/ops/add-file" class="btn btn-warning mt-3"><i
-                                    class="bi bi-plus-circle"></i> Add File</button>
-                            <button routerLink="/ops/delete-file" class="btn btn-warning mt-3"><i class="bi bi-trash"></i> Delete File</button>
-                            <button class="btn btn-warning mt-3"><i class="bi bi-card-list"></i> List Files</button>
-                            <button class="btn btn-warning mt-3"><i class="bi bi-folder-plus"></i> Create Dir</button>
-                            <button class="btn btn-warning mt-3"><i class="bi bi-folder-minus"></i> Delete Dir</button>
-                            <button class="btn btn-warning mt-3"><i class="bi bi-card-list"></i> List Dirs</button>
+                            <button routerLink="/ops/add-file" class="btn btn-warning mt-3">
+                                <i class="bi bi-plus-circle"></i> Add File
+                            </button>
+                            <button routerLink="/ops/delete-file" class="btn btn-warning mt-3">
+                                <i class="bi bi-trash"></i> Delete File
+                            </button>
+                            <button class="btn btn-warning mt-3">
+                                <i class="bi bi-card-list"></i> List Files
+                            </button>
+                            <button routerLink="/ops/create-dirs" class="btn btn-warning mt-3">
+                                <i class="bi bi-folder-plus"></i> Create Dir
+                            </button>
+                            <button routerLink="/ops/delete-dir" class="btn btn-warning mt-3">
+                                <i class="bi bi-folder-minus"></i> Delete Dir
+                            </button>
+                            <button class="btn btn-warning mt-3">
+                                <i class="bi bi-card-list"></i> List Dirs
+                            </button>
                         </div>
                     </div>
                     <div class="col-6 text-center">

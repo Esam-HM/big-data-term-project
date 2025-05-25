@@ -18,7 +18,7 @@ def writeFile(targetPath: str, file_stream):
     Upload file stream directly to HDFS at targetPath.
     """
     try:
-        with client.write(targetPath, encoding="utf-8",overwrite=False) as writer:
+        with client.write(targetPath, overwrite=False) as writer:
             # Read the incoming file stream in chunks and write to HDFS
             chunk_size = 1024 * 1024  # 1 MB
             while True:
@@ -94,6 +94,32 @@ def getAllFiles(path="/"):
                 all_files.append(full_path)
 
         return all_files
+
+    except Exception as e:
+        raise e
+    
+def getAllPaths(path="/"):
+    all_files = []
+    all_dirs = []
+
+    try:
+        # List directory contents with metadata
+        entries = client.list(path, status=True)
+
+        for name, status in entries:
+            full_path = path + "/" + name
+
+            if status['type'] == 'DIRECTORY':
+                # Recursively traverse subdirectory
+                all_dirs.append(full_path)
+                files, dirs = getAllPaths(full_path)
+                all_files.extend(files)
+                all_dirs.extend(dirs)
+            elif status['type'] == 'FILE':
+                # It's a file, add to list
+                all_files.append(full_path)
+
+        return all_files, all_dirs
 
     except Exception as e:
         raise e

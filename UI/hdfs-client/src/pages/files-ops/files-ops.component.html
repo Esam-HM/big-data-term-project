@@ -1,0 +1,72 @@
+<div class="custom-container-2">
+    <app-alert-message 
+        [isVisible]="showAlert"
+        [message]="alertMessage"
+        [alertType]="alertType"
+        (toggleVisibility)="showAlert=false">
+    </app-alert-message>
+
+    <app-spinner
+        [isVisible]="showSpinner" 
+        message="Please Wait...">
+    </app-spinner>
+
+    <div class="row mt-3">
+        <div class="col-auto">
+            <button routerLink="/ops" class="btn btn-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Back
+            </button>
+        </div>
+        <div class="col text-center">
+            <h2>Files Operations</h2>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <!-- Add New File -->
+        <div class="col-6">
+            <div class="p-3 border border-2 border-black rounded-3" style="height: 350px;">
+                <h4 class="mt-2">Add New File</h4>
+                <div class="mt-4">
+                    <label class="form-label">File to Add</label>
+                    <input class="form-control" #fileInput (change)="onFileSelected(fileInput.files)" type="file" />
+                </div>
+                <div class="mt-4">
+                    <label class="form-label">HDFS Path:</label>
+                    <app-auto-complete-input
+                        [suggestions]="allDirs"
+                        [inputValue]="addHDFSPath"
+                        (inputValueChanged)="onAddHdfsPathChanged($event)"
+                        placeholder="HDFS path (e.g., /directory/subdirectory/example.txt)">
+                    </app-auto-complete-input>
+                    <div><small>** Path must start with "/"</small></div>
+                </div>
+                <div class="mt-4">
+                    <button (click)="onAddBtnClicked()" [disabled]="selectedFile==null && addHDFSPath.trim()==''" type="submit" class="btn btn-success me-3">
+                        <i class="bi bi-plus-circle"></i> Add
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Delete File -->
+        <div class="col-6">
+            <div class="p-3 border border-2 border-black rounded-3" style="height: 350px;">
+                <h4 class="mt-2">Delete File From HDFS </h4>
+            <div class="mt-4">
+                <label class="form-label">File HDFS Path:</label>
+                <app-auto-complete-input 
+                    [inputValue]="deleteFilePath"
+                    [suggestions]="allFiles"
+                    (inputValueChanged)="onDeleteHdfsPathChanged($event)"
+                    placeholder="HDFS file path (e.g., /directory/subdirectory/example.txt)">
+                </app-auto-complete-input>
+                <div><small>** Path must start with "/"</small></div>
+            </div>
+            <div class="mt-4">
+                <button (click)="onDeleteBtnClicked()" [disabled]="deleteFilePath.trim()==''" class="btn btn-danger me-3">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

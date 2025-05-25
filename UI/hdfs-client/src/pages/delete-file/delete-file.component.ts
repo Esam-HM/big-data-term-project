@@ -35,10 +35,12 @@ export class DeleteFileComponent implements OnInit, OnDestroy {
     
     this.getAllFilesSubscription = this.hdfsService.getAllFiles().subscribe({
       next: (response) => {
+        this.showSpinner = false;
         this.allFiles = response["files"];
         console.log(response);
       },
       error: (error) => {
+        this.showSpinner = false;
         console.log("Error retrieving files");
       }
     });

@@ -54,31 +54,10 @@ def toggleYarn(toggle: bool=False):
     return {code, msg}
 
 def isHadoopRunning():
+
     code, msg = sendSSHCommand("jps")
-    hdfs = 0
-    yarn = 0
 
-    res = [False,False]
-
-    if code ==-1:
-        return -1, res
-
-    for line in msg.splitlines():
-        if "NameNode" in line:
-            hdfs += 1
-            if "DataNode" in line:
-                hdfs +=1
-            else:
-                if "ResourceManager" in line:
-                    yarn += 1
-                else:
-                    if "NodeManager" in line:
-                        yarn +=1
-
-    res[0] = hdfs == 2
-    res[1] = yarn == 2
-
-    return 0,res
+    return code ,["NameNode" and "DataNode" in msg, "ResourceManager" and "NodeManager" in msg]
 
 def main():
     #status, res = sendSSHCommand('/home/esam/hadoop/bin/hadoop jar /media/sf_New_folder/ParcticeOne.jar /user/esam/input/data.txt /user/esam/deneJar')

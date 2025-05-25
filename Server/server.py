@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from hdfs_services import *
-from ssh_utils import toggleHDFS, isHadoopRunning
-from werkzeug.utils import secure_filename
+from ssh_utils import toggleHDFS, isHadoopRunning, toggleYarn
 
 app = Flask(__name__)
 CORS(app)
@@ -44,7 +43,7 @@ def startStopYarn():
     try:
         # Read status from JSON body: true => start, false => stop
         data = request.get_json()
-        result = toggleHDFS(data.get('status'))
+        result = toggleYarn(data.get('status'))
 
         return jsonify({
             "success": True if 0 in result else False,
@@ -92,12 +91,21 @@ def get_all_files():
 
     except Exception as e:
         return jsonify({"files":[]}), 500
+    
+@app.route("/api/hdfs/getallpaths")
+def get_all_paths():
+    try:
+        files, dirs = getAllPaths("/user")
 
-@app.route("api/hdfs/deletepath",methods=["POST"])
+        return jsonify({"files": files, "dirs" : dirs}), 200
+    except Exception as e:
+        return jsonify({"Status": f"Error {e}"}), 500
+
+@app.route("/api/hdfs/deletepath",methods=["POST"])
 def delete_path():
     try:
         data = request.get_json()
-        path_to_delete = data.get["path"]
+        path_to_delete = data.get("path")
         is_deleted = deletePath(path_to_delete)
 
         if is_deleted:
@@ -105,8 +113,8 @@ def delete_path():
     
         return jsonify({"deleted": is_deleted, "path" : path_to_delete}), 200
         
-    except:
-        return jsonify({"deleted": "-", "path": "-"}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/api/hdfs/createdirs",methods=["POST"])
 def create_dirs():

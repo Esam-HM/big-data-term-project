@@ -42,11 +42,12 @@
 #     all = content.split("\n")
 #     print(all)
 
-
 from hdfs_services import *
+from ssh_utils import toggleYarn,isHadoopRunning
 
-
-
-print(getAllFiles("/user"))
+files, dirs = getAllPaths("/user")
+print(f"Files : {files}")
+print(f"Dirs: {dirs}")
+#print(getAllFiles("/user"))
 
 #print(getAllDirs(["/user"]))
