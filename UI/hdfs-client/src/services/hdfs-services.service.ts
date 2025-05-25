@@ -35,7 +35,7 @@ export class HdfsServicesService {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/hdfs/getallpaths`);
   }
 
-  deleteFile(path: string): Observable<any>{
+  deletePath(path: string): Observable<any>{
     return this.http.post<any>(`${environment.apiBaseUrl}/api/hdfs/deletepath`,{"path":path});
   }
 
@@ -46,4 +46,9 @@ export class HdfsServicesService {
 
     return this.http.post<any>(`${environment.apiBaseUrl}/api/hdfs/uploadfile`, formData);
   }
+
+  createNewDir(path: string): Observable<any>{
+    return this.http.post(`${environment.apiBaseUrl}/api/hdfs/createdir`,{"path":path});
+  }
+  
 }

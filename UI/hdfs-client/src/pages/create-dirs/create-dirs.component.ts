@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { AlertMessageComponent } from '../../components/alert-message/alert-message.component';
 import { AutoCompleteInputComponent } from '../../components/auto-complete-input/auto-complete-input.component';
@@ -12,7 +12,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './create-dirs.component.html',
   styleUrl: './create-dirs.component.css'
 })
-export class CreateDirsComponent {
+export class CreateDirsComponent implements OnInit, OnDestroy {
+
   constructor(private hdfsService: HdfsServicesService ){}
   
   allFiles : string[] = []
@@ -48,7 +49,7 @@ export class CreateDirsComponent {
 
   onDeleteFileClicked(): void {
     this.showSpinner = true;
-    this.deleteFileSubscription = this.hdfsService.deleteFile(this.hdfsFilePath).subscribe({
+    this.deleteFileSubscription = this.hdfsService.deletePath(this.hdfsFilePath).subscribe({
       next: (response) => {
         if(response["deleted"]){
           this.showAlertBox(`File : ${response["path"]} Deleted Successfully`,1);

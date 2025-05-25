@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HdfsServicesService } from '../../services/hdfs-services.service';
 import { RouterLink } from '@angular/router';
@@ -13,7 +13,7 @@ import { AlertMessageComponent } from '../../components/alert-message/alert-mess
   templateUrl: './files-ops.component.html',
   styleUrl: './files-ops.component.css'
 })
-export class FilesOpsComponent implements OnInit {
+export class FilesOpsComponent implements OnInit, OnDestroy {
   
   constructor(private hdfsService : HdfsServicesService){}
 
@@ -85,7 +85,7 @@ export class FilesOpsComponent implements OnInit {
 
   onDeleteBtnClicked(): void {
     this.showSpinner = true;
-    this.deleteFileSubscription = this.hdfsService.deleteFile(this.deleteFilePath).subscribe({
+    this.deleteFileSubscription = this.hdfsService.deletePath(this.deleteFilePath).subscribe({
       next: (response) => {
         if(response["deleted"]){
           this.showAlertBox(`File : ${response["path"]} Deleted Successfully`,1);

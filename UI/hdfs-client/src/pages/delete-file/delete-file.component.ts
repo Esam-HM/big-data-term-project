@@ -53,7 +53,7 @@ export class DeleteFileComponent implements OnInit, OnDestroy {
 
   onDeleteFileClicked(): void {
     this.showSpinner = true;
-    this.deleteFileSubscription = this.hdfsService.deleteFile(this.hdfsFilePath).subscribe({
+    this.deleteFileSubscription = this.hdfsService.deletePath(this.hdfsFilePath).subscribe({
       next: (response) => {
         if(response["deleted"]){
           this.showAlertBox(`File : ${response["path"]} Deleted Successfully`,1);

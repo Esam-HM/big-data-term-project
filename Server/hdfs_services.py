@@ -44,7 +44,7 @@ def deletePath(hdfs_path: str):
     except Exception as e:
         raise e
     
-def createDirectories(hdfs_path: str):
+def createDirectory(hdfs_path: str):
     """
     Create new directory. subdirs will be created if not existed
     """

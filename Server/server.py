@@ -57,6 +57,7 @@ def startStopYarn():
         }), 500
 
 
+## Dir APIs
 @app.route("/api/hdfs/getDirs", methods=["GET"])
 def getDirs():
     allDirs = getAllDirs(["/user"])
@@ -66,6 +67,20 @@ def getDirs():
     
 
     return jsonify({"dirs": allDirs})
+
+
+@app.route("/api/hdfs/createdir",methods=["POST"])
+def create_dir():
+    try:
+        data = request.get_json()
+        newDirPath = data.get("path")
+
+        res = createDirectory(newDirPath)
+
+        return jsonify({"createdPath": newDirPath}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/api/hdfs/uploadfile', methods=['POST'])
@@ -82,6 +97,7 @@ def upload_to_hdfs():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route("/api/hdfs/getallfiles")
 def get_all_files():
     try:
@@ -92,6 +108,7 @@ def get_all_files():
     except Exception as e:
         return jsonify({"files":[]}), 500
     
+
 @app.route("/api/hdfs/getallpaths")
 def get_all_paths():
     try:
@@ -100,6 +117,7 @@ def get_all_paths():
         return jsonify({"files": files, "dirs" : dirs}), 200
     except Exception as e:
         return jsonify({"Status": f"Error {e}"}), 500
+
 
 @app.route("/api/hdfs/deletepath",methods=["POST"])
 def delete_path():
@@ -115,20 +133,6 @@ def delete_path():
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-@app.route("/api/hdfs/createdirs",methods=["POST"])
-def create_dirs():
-    try:
-        data = request.get_json()
-        dirs = data.get["path"]
-
-        res = createDirectories("dirs")
-
-        return jsonify({"status": f"Directories Created at {dirs}"}), 200
-    
-    except:
-
-        return jsonify({"status": "Error wile creating dirs"}), 500
 
 
 if __name__ =="__main__":

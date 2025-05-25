@@ -1,1 +1,68 @@
-<p>dirs-ops works!</p>
+<div class="custom-container-2">
+    <app-alert-message 
+        [isVisible]="showAlert"
+        [message]="alertMessage"
+        [alertType]="alertType"
+        (toggleVisibility)="showAlert=false">
+    </app-alert-message>
+
+    <app-spinner
+        [isVisible]="showSpinner" 
+        message="Please Wait...">
+    </app-spinner>
+
+    <div class="row mt-3">
+        <div class="col-auto">
+            <button routerLink="/ops" class="btn btn-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Back
+            </button>
+        </div>
+        <div class="col text-center">
+            <h2>Directory Operations</h2>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <!-- Make New Dir -->
+        <div class="col-6">
+            <div class="p-3 border border-2 border-black rounded-3 shadow" style="height: 300px;">
+                <h4 class="mt-2">Make New Dir</h4>
+                <div class="mt-4">
+                    <label class="form-label">Dir HDFS Path:</label>
+                    <app-auto-complete-input
+                        [suggestions]="allDirs"
+                        [inputValue]="dirPathToCreate"
+                        (inputValueChanged)="onDirPathToCreateChanged($event)"
+                        placeholder="hdfs dir path (e.g., /directory/subdirectory/newDirName)">
+                    </app-auto-complete-input>
+                    <div><small>** Path must start with "/"</small></div>
+                </div>
+                <div class="mt-4">
+                    <button (click)="onCreateBtnClicked()" [disabled]="dirPathToCreate.trim()==''" type="submit" class="btn btn-success me-3">
+                        <i class="bi bi-plus-circle"></i> Create
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Delete Dir -->
+        <div class="col-6">
+            <div class="p-3 border border-2 border-black rounded-3 shadow" style="height: 300px;">
+                <h4 class="mt-2">Delete Dir From HDFS </h4>
+                <div class="mt-4">
+                    <label class="form-label">HDFS Path:</label>
+                    <app-auto-complete-input 
+                        [inputValue]="dirPathToDelete"
+                        [suggestions]="allDirs"
+                        (inputValueChanged)="onDirPathToDeleteChanged($event)"
+                        placeholder="hdfs dir path (e.g., /directory/subdirectory/existingDir)">
+                    </app-auto-complete-input>
+                    <div><small>** Path must start with "/"</small></div>
+                </div>
+                <div class="mt-4">
+                    <button (click)="onDeleteBtnClicked()" [disabled]="dirPathToDelete.trim()==''" class="btn btn-danger me-3">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
