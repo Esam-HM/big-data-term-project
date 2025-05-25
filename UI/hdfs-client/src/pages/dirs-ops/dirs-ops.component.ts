@@ -4,11 +4,12 @@ import { AutoCompleteInputComponent } from '../../components/auto-complete-input
 import { AlertMessageComponent } from '../../components/alert-message/alert-message.component';
 import { HdfsServicesService } from '../../services/hdfs-services.service';
 import { Subscription } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dirs-ops',
   standalone: true,
-  imports: [SpinnerComponent, AutoCompleteInputComponent, AlertMessageComponent],
+  imports: [RouterLink, SpinnerComponent, AutoCompleteInputComponent, AlertMessageComponent],
   templateUrl: './dirs-ops.component.html',
   styleUrl: './dirs-ops.component.css'
 })
