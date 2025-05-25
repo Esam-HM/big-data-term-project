@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <app-alert-message 
+                    [isVisible]="showAlert"
+                    [message]="alertMessage"
+                    [alertType]="alertType"
+                    (toggleVisibility)="showAlert=false">
+                </app-alert-message>
+
+                <app-spinner
+                    [isVisible]="showSpinner" 
+                    message="Please Wait...">
+                </app-spinner>
+
+                <h1 class="mt-2">Delete File From HDFS </h1>
+                <div class="mt-4">
+                    <label class="form-label">File HDFS Path:</label>
+                    <app-auto-complete-input 
+                        [suggestions]="allFiles" 
+                        [inputValue]="hdfsFilePath"
+                        (inputValueChanged)="onHdfsPathChanged($event)"
+                        placeholder="HDFS file path (e.g., /directory/subdirectory/example.txt)">
+                    </app-auto-complete-input>
+                    <div><small>** Path must start with "/"</small></div>
+                </div>
+                <div class="mt-4">
+                    <button [disabled]="hdfsFilePath.trim() !=''" (click)="onDeleteFileClicked()" class="btn btn-danger me-3">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                    <button routerLink="/ops" class="btn btn-secondary ms-3">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

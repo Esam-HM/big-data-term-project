@@ -1,0 +1,69 @@
+<ng-container *ngIf="hadoopStatus else loading">
+    <ng-container *ngIf="hadoopStatus.status != 'error' else noConnection">
+        <app-spinner [isVisible]="showSpinner" message="Wait Please..."></app-spinner>
+        <app-alert-message
+            [isVisible]="showAlertMessage"
+            [alertType]="alertType"
+            [message]="alertMessage"
+            (toggleVisibility)="toggleAlertMessage()">
+        </app-alert-message>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <div class="me-5">
+                            <span class="txt">Hadoop: </span>
+                            <button (click)="toggleHDFS()" class="btn" [ngClass]="hdfsBtnTxt=='Start' ? 'btn-success' : 'btn-danger'">{{hdfsBtnTxt}}</button>
+                        </div>
+                        <div class="ms-5">
+                            <span class="txt">Yarn: </span>
+                            <button (click)="toggleYarn()" class="btn" [ngClass]="yarnBtnTxt=='Start' ? 'btn-success' : 'btn-danger'">{{yarnBtnTxt}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-container">
+                <div class="row mt-5">
+                    <div class="col-6 text-center">
+                        <h3>HDFS Operations</h3>
+                        <div class="d-grid">
+                            <button routerLink="/ops/add-file" class="btn btn-warning mt-3"><i
+                                    class="bi bi-plus-circle"></i> Add File</button>
+                            <button routerLink="/ops/delete-file" class="btn btn-warning mt-3"><i class="bi bi-trash"></i> Delete File</button>
+                            <button class="btn btn-warning mt-3"><i class="bi bi-card-list"></i> List Files</button>
+                            <button class="btn btn-warning mt-3"><i class="bi bi-folder-plus"></i> Create Dir</button>
+                            <button class="btn btn-warning mt-3"><i class="bi bi-folder-minus"></i> Delete Dir</button>
+                            <button class="btn btn-warning mt-3"><i class="bi bi-card-list"></i> List Dirs</button>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <h3>Map-Reduce Jobs</h3>
+                        <div class="d-grid">
+                            <button class="btn btn-secondary mt-3">Total Number of Movies</button>
+                            <button class="btn btn-secondary mt-3">Minimum and Maximum Ratings</button>
+                            <button class="btn btn-secondary mt-3">Average Movie Rating</button>
+                            <button class="btn btn-secondary mt-3">Rating Standard Deviation</button>
+                            <button class="btn btn-secondary mt-3">Rating Coefficient of Variation</button>
+                            <button class="btn btn-secondary mt-3">Rating Skewness</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>
+<ng-template #loading>
+    <div class="text-center">
+        <div class="my-modal-content">
+            <div><strong>Getting Status...</strong></div>
+            <div class="_spinner spinner-border text-primary" role="status"></div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #noConnection>
+    <div class="custom-container">
+        <div class="alert alert-warning">
+            Failed to connect to remote server!! Try Again....
+        </div>
+    </div>
+</ng-template>

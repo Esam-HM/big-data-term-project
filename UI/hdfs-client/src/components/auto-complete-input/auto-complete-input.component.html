@@ -1,0 +1,26 @@
+<div class="position-relative">
+  <input
+    class="form-control"
+    type="text"
+    [placeholder]="placeholder"
+    [(ngModel)]="inputValue"
+    (input)="onInputChange()"
+    (focus)="onFocus()"
+    (blur)="hideSuggestions()"
+    autocomplete="off"
+  />
+
+  <!-- Suggestions Dropdown -->
+  <ul
+    class="list-group position-absolute w-100 z-2 my-list"
+    *ngIf="showSuggestions && filteredSuggestions.length > 0"
+  >
+    <li
+      class="list-group-item list-group-item-action"
+      *ngFor="let suggestion of filteredSuggestions"
+      (mousedown)="selectSuggestion(suggestion)"
+    >
+      {{ suggestion }}
+    </li>
+  </ul>
+</div>

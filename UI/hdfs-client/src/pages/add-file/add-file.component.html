@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="custom-container">
+                <app-alert-message
+                    [isVisible]="showAlert"
+                    [message]="alertMessage" 
+                    [alertType]="alertType"
+                    (toggleVisibility)="showAlert=false">
+                </app-alert-message>
+
+                <app-spinner
+                    [isVisible]="showSpinner"
+                    message="Please Wait...">
+                </app-spinner>
+
+                <h1 class="mt-2">Add New File</h1>
+                <form #myForm="ngForm" (ngSubmit)="onFormSubmit()">
+                    <div class="mt-4">
+                        <label class="form-label">File to Add</label>
+                        <input class="form-control" #fileInput (change)="onFileSelected(fileInput.files)" type="file" />
+                    </div>
+                    <div class="mt-4">
+                        <label class="form-label">HDFS Path:</label>
+                        <app-auto-complete-input 
+                            [suggestions]="allPaths" 
+                            [inputValue]="hdfsPath"
+                            (inputValueChanged)="onHdfsPathChanged($event)"
+                            placeholder="HDFS path (e.g., /directory/subdirectory)">
+                        </app-auto-complete-input>
+                    </div>
+                    <div class="mt-4">
+                        <button [disabled]="!isFormValid" type="submit" class="btn btn-success me-3">
+                            <i class="bi bi-plus-circle"></i> Add
+                        </button>
+                        <button (click)="onCancelClicked()" type="button" class="btn btn-danger ms-3">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
