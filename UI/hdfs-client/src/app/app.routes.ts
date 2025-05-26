@@ -5,6 +5,7 @@ import { DeleteFileComponent } from '../pages/delete-file/delete-file.component'
 import { CreateDirsComponent } from '../pages/create-dirs/create-dirs.component';
 import { FilesOpsComponent } from '../pages/files-ops/files-ops.component';
 import { DirsOpsComponent } from '../pages/dirs-ops/dirs-ops.component';
+import { JobWorkerComponent } from '../pages/job-worker/job-worker.component';
 
 export const routes: Routes = [
     {
@@ -35,5 +36,9 @@ export const routes: Routes = [
     {
         path: "ops/dirs-ops",
         component: DirsOpsComponent
+    },
+    {
+        path : "ops/jobs/:id",
+        component : JobWorkerComponent
     }
 ];

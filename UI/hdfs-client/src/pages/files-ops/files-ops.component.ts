@@ -5,11 +5,12 @@ import { RouterLink } from '@angular/router';
 import { AutoCompleteInputComponent } from '../../components/auto-complete-input/auto-complete-input.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { AlertMessageComponent } from '../../components/alert-message/alert-message.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-files-ops',
   standalone: true,
-  imports: [RouterLink, SpinnerComponent, AlertMessageComponent, AutoCompleteInputComponent],
+  imports: [FormsModule, RouterLink, SpinnerComponent, AlertMessageComponent, AutoCompleteInputComponent],
   templateUrl: './files-ops.component.html',
   styleUrl: './files-ops.component.css'
 })
@@ -19,6 +20,10 @@ export class FilesOpsComponent implements OnInit, OnDestroy {
 
   addHDFSPath : string = "";
   selectedFile : File | null = null;
+
+  filePathToRead : string = "";
+  pageNumber : number = 1;
+  fileContent : string = "";
 
   deleteFilePath : string = "";
   
@@ -37,6 +42,7 @@ export class FilesOpsComponent implements OnInit, OnDestroy {
   addFileSubscription? : Subscription;
   deleteFileSubscription? : Subscription;
   getAllPathsSubscription? : Subscription;
+  readFileSubscription? : Subscription;
 
   ngOnInit(): void {
     this.showSpinner = true;
@@ -50,6 +56,21 @@ export class FilesOpsComponent implements OnInit, OnDestroy {
       error : (error) => {
         this.showSpinner = false;
         console.log("error getting all");
+      }
+    });
+  }
+
+  onReadBtnClicked(): void{
+    this.showSpinner = true;
+    this.readFileSubscription = this.hdfsService.readRawFile(this.filePathToRead, this.pageNumber).subscribe({
+      next : (response) => {
+        this.showSpinner = false;
+        this.fileContent = response.join('');
+      },
+      error : (errorResponse) => {
+        this.showSpinner = false;
+        this.showAlertBox(`Could not read file ${this.filePathToRead}`,0);
+        console.log(errorResponse.error?.error);
       }
     });
   }
@@ -116,5 +137,6 @@ export class FilesOpsComponent implements OnInit, OnDestroy {
     this.addFileSubscription?.unsubscribe();
     this.deleteFileSubscription?.unsubscribe();
     this.getAllPathsSubscription?.unsubscribe();
+    this.readFileSubscription?.unsubscribe();
   }
 }

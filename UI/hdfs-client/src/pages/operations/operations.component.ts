@@ -6,6 +6,7 @@ import { HadoopStatus } from '../../models/hadoop-status-request';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { AlertMessageComponent } from "../../components/alert-message/alert-message.component";
+import { IJob } from '../../models/job';
 
 @Component({
   selector: 'app-operations',
@@ -19,6 +20,15 @@ export class OperationsComponent implements OnDestroy, OnInit{
   constructor(
     private hdfsService : HdfsServicesService,
   ) {}
+
+  jobs: IJob[] = [
+    { id: 1, title: 'Movie Ratings Count', description: 'Counts the total number of ratings for each movie' },
+    { id: 2, title: 'Min-Max Ratings', description: 'Finds the lowest and highest ratings for each movie' },
+    { id: 3, title: 'Movie Average Ratings', description: 'Calculates the average rating for each movie' },
+    { id: 4, title: 'Rating Standard Deviation', description: 'Calculates the standard deviation of each movie ratings'},
+    { id: 5, title: 'Rating Coefficient of Variation', description: 'Calculates coefficient of variation of each movie ratings' },
+    { id: 6, title: 'Skewness of Movies\' Ratings', description: 'Computes skewness of each movie\'s overall rating distribution'}
+  ];
 
   hdfsBtnTxt : string = "Start";
   yarnBtnTxt : string = "Start";

@@ -43,11 +43,56 @@
 #     print(all)
 
 from hdfs_services import *
-from ssh_utils import toggleYarn,isHadoopRunning
+from ssh_utils import sendSSHCommand, toggleYarn, isHadoopRunning, submitJob
 
-files, dirs = getAllPaths("/user")
-print(f"Files : {files}")
-print(f"Dirs: {dirs}")
+#files, dirs = getAllPaths("/user")
+#print(f"Files : {files}")
+#print(f"Dirs: {dirs}")
 #print(getAllFiles("/user"))
-
 #print(getAllDirs(["/user"]))
+
+# def dene():
+#     status, res = sendSSHCommand('/home/esam/hadoop/bin/hadoop jar /media/sf_New_folder/ParcticeOne.jar /user/esam/input/data.txt /user/esam/deneJar')
+
+#     if status == 0:
+#         print(f"successf:  {res}")
+#     else:
+#         print(f"Error happend: {res}")
+        
+        
+#     code, result = sendSSHCommand("/bin/bash -lc '/home/esam/hadoop/sbin/start-dfs.sh'")
+    
+#     if code == 0:
+#         print("HDFS started:", result)
+#     else:
+#         print("Failed to start HDFS:", result)
+
+def main():
+    JobsPaths = {
+        "1" : "/media/sf_New_folder/jobs/MovieRatingsCount.jar",
+        "2" : "/media/sf_New_folder/jobs/MovieMinMaxRatings",
+        "3" : "/media/sf_New_folder/jobs/MovieRatingsAverage",
+        "4" : "/media/sf_New_folder/jobs/MovieRatingsStdDeviation",
+        "5" : "/media/sf_New_folder/jobs/MovieRatingsCV",
+        "6" : "/media/sf_New_folder/jobs/MovieRatingSkewness"
+    }
+
+    inputFilePath = "/user/esam/input/data.txt"
+    outputDirPath = "/user/esam/jobsResults/MovieRatingsAverage"
+
+    command = f"/home/esam/hadoop/bin/hadoop jar {JobsPaths.get("3")} {inputFilePath} {outputDirPath}"
+    print(command)
+
+def readHDFSFile():
+    start, stop = paginate(1,200)
+    print(readFile("/user/esam/input/movies_25.csv",start,stop))
+    start, stop = paginate(2,200)
+    print("break")
+    print(readFile("/user/esam/input/movies_25.csv",start,stop))
+    #print(countLines("/user/esam/input/movies_25.csv"))
+
+
+
+
+if __name__ == "__main__":
+    readHDFSFile()

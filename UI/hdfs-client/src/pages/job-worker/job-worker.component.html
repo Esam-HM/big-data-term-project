@@ -1,0 +1,54 @@
+<ng-container *ngIf="jobId else noJobIdFound">
+    <div class="custom-container">
+        <app-alert-message 
+            [isVisible]="showAlert" 
+            [message]="alertMessage" 
+            [alertType]="alertType"
+            (toggleVisibility)="showAlert=false">
+        </app-alert-message>
+
+        <app-spinner 
+            [isVisible]="showSpinner" 
+            [message]="spinnerMessage">
+        </app-spinner>
+
+        <div class="row mt-4">
+            <!-- Add New File -->
+            <div class="col-12">
+                <div class="p-3 border border-2 border-black rounded-3" style="height: 360px;">
+                    <h4 class="mt-2">{{jobNameGetter}}</h4>
+                    <div class="mt-4">
+                        <label class="form-label">HDFS Path:</label>
+                        <app-auto-complete-input 
+                            [suggestions]="allFiles" 
+                            [inputValue]="inputFilePath"
+                            (inputValueChanged)="inputFilePath = $event"
+                            placeholder="input file hdfs path (e.g., /directory/subdirectory/example.txt)">
+                        </app-auto-complete-input>
+                        <div><small class="text-muted">** Path must start with "/"</small></div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="form-label">HDFS Path:</label>
+                        <app-auto-complete-input 
+                            [suggestions]="allDirs" 
+                            [inputValue]="outputDirPath"
+                            (inputValueChanged)="outputDirPath = $event"
+                            placeholder="HDFS path (e.g., /directory/subdirectory/newDir)">
+                        </app-auto-complete-input>
+                        <div><small class="text-muted">** Path must start with "/"</small></div>
+                    </div>
+                    <div class="mt-4">
+                        <button (click)="onSubmitBtnClicked()" class="btn btn-primary">
+                            <i class="bi bi-arrow-right-square"></i> Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-template #noJobIdFound>
+    <div class="alert alert-warning">
+        Could not Found the job
+    </div>
+</ng-template>

@@ -2,75 +2,74 @@
  *ngIf="hadoopStatus else loading" 
  *ngIf="hadoopStatus.status != 'error' else noConnection"
  -->
-<ng-container >
-    <ng-container >
+<ng-container>
+    <ng-container>
         <app-spinner [isVisible]="showSpinner" message="Wait Please..."></app-spinner>
-        <app-alert-message
-            [isVisible]="showAlertMessage"
-            [alertType]="alertType"
-            [message]="alertMessage"
+        <app-alert-message [isVisible]="showAlertMessage" [alertType]="alertType" [message]="alertMessage"
             (toggleVisibility)="toggleAlertMessage()">
         </app-alert-message>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="d-flex justify-content-center">
-                        <div class="me-5">
-                            <span class="txt">Hadoop: </span>
-                            <button (click)="toggleHDFS()" class="btn" [ngClass]="hdfsBtnTxt=='Start' ? 'btn-success' : 'btn-danger'">{{hdfsBtnTxt}}</button>
+        <div class="custom-container">
+            <div class="row g-4">
+                <!-- Cluster -->
+                <div class="col-6">
+                    <div class="card bg-body-tertiary h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h4 class="fw-bold mb-4">Cluster</h4>
+                            <div class="d-flex justify-content-around flex-wrap">
+                                <div class="mb-3">
+                                    <span class="fw-medium me-2">Hadoop:</span>
+                                    <button (click)="toggleHDFS()" class="btn"
+                                        [ngClass]="hdfsBtnTxt === 'Start' ? 'btn-success' : 'btn-danger'">
+                                        {{ hdfsBtnTxt }}
+                                    </button>
+                                </div>
+                                <div class="mb-3">
+                                    <span class="fw-medium me-2">YARN:</span>
+                                    <button (click)="toggleYarn()" class="btn"
+                                        [ngClass]="yarnBtnTxt === 'Start' ? 'btn-success' : 'btn-danger'">
+                                        {{ yarnBtnTxt }}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ms-5">
-                            <span class="txt">Yarn: </span>
-                            <button (click)="toggleYarn()" class="btn" [ngClass]="yarnBtnTxt=='Start' ? 'btn-success' : 'btn-danger'">{{yarnBtnTxt}}</button>
+                    </div>
+                </div>
+                <!-- HDFS Operations -->
+                <div class="col-6">
+                    <div class="card h-100 bg-body-tertiary shadow-sm">
+                        <div class="card-body text-center">
+                            <h4 class="fw-bold mb-4">HDFS Operations</h4>
+                            <div class="d-flex justify-content-around flex-wrap">
+                                <div class="mb-2">
+                                    <button routerLink="/ops/files-ops" class="btn btn-warning w-100">Files
+                                        Operations</button>
+                                </div>
+                                <div class="mb-2">
+                                    <button routerLink="/ops/dirs-ops" class="btn btn-warning w-100">Directory
+                                        Operations</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="custom-container">
-                <div class="row text-center mt-5">
-                    <h2>HDFS Operations</h2>
+            <!-- Jobs -->
+            <div class="row mb-4 mt-4">
+                <div class="col text-center">
+                    <h3 class="fw-bold">MapReduce Jobs</h3>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-6 text-center">
-                        <button routerLink="/ops/files-ops" class="btn btn-warning">Files Operations</button>
-                    </div>
-                    <div class="col-6 text-center">
-                        <button routerLink="/ops/dirs-ops" class="btn btn-warning">Directory Operations</button>
-                    </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col-6 text-center">
-                        <h3>HDFS Operations</h3>
-                        <div class="d-grid">
-                            <button routerLink="/ops/add-file" class="btn btn-warning mt-3">
-                                <i class="bi bi-plus-circle"></i> Add File
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 col-sm-6" *ngFor="let job of jobs">
+                    <div class="card bg-body-secondary h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ job.title }}</h5>
+                            <p class="card-text text-muted">{{ job.description }}</p>
+                            <button 
+                                [routerLink]="['/ops/jobs',job.id,{'job':job.title}]" 
+                                class="btn btn-primary mt-3 w-100">
+                                    <i class="bi bi-arrow-right-short"></i> Submit Job
                             </button>
-                            <button routerLink="/ops/delete-file" class="btn btn-warning mt-3">
-                                <i class="bi bi-trash"></i> Delete File
-                            </button>
-                            <button class="btn btn-warning mt-3">
-                                <i class="bi bi-card-list"></i> List Files
-                            </button>
-                            <button routerLink="/ops/create-dirs" class="btn btn-warning mt-3">
-                                <i class="bi bi-folder-plus"></i> Create Dir
-                            </button>
-                            <button routerLink="/ops/delete-dir" class="btn btn-warning mt-3">
-                                <i class="bi bi-folder-minus"></i> Delete Dir
-                            </button>
-                            <button class="btn btn-warning mt-3">
-                                <i class="bi bi-card-list"></i> List Dirs
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-6 text-center">
-                        <h3>Map-Reduce Jobs</h3>
-                        <div class="d-grid">
-                            <button class="btn btn-secondary mt-3">Total Number of Movies</button>
-                            <button class="btn btn-secondary mt-3">Minimum and Maximum Ratings</button>
-                            <button class="btn btn-secondary mt-3">Average Movie Rating</button>
-                            <button class="btn btn-secondary mt-3">Rating Standard Deviation</button>
-                            <button class="btn btn-secondary mt-3">Rating Coefficient of Variation</button>
-                            <button class="btn btn-secondary mt-3">Rating Skewness</button>
                         </div>
                     </div>
                 </div>

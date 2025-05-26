@@ -34,7 +34,7 @@
                         (inputValueChanged)="onDirPathToCreateChanged($event)"
                         placeholder="hdfs dir path (e.g., /directory/subdirectory/newDirName)">
                     </app-auto-complete-input>
-                    <div><small>** Path must start with "/"</small></div>
+                    <div><small class="text-muted">** Path must start with "/"</small></div>
                 </div>
                 <div class="mt-4">
                     <button (click)="onCreateBtnClicked()" [disabled]="dirPathToCreate.trim()==''" type="submit" class="btn btn-success me-3">
@@ -55,7 +55,7 @@
                         (inputValueChanged)="onDirPathToDeleteChanged($event)"
                         placeholder="hdfs dir path (e.g., /directory/subdirectory/existingDir)">
                     </app-auto-complete-input>
-                    <div><small>** Path must start with "/"</small></div>
+                    <div><small class="text-muted">** Path must start with "/"</small></div>
                 </div>
                 <div class="mt-4">
                     <button (click)="onDeleteBtnClicked()" [disabled]="dirPathToDelete.trim()==''" class="btn btn-danger me-3">

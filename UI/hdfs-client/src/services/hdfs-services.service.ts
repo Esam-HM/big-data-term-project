@@ -50,5 +50,17 @@ export class HdfsServicesService {
   createNewDir(path: string): Observable<any>{
     return this.http.post(`${environment.apiBaseUrl}/api/hdfs/createdir`,{"path":path});
   }
+
+  submitJob(id:string, inputFilePath:string, outputDirPath: string): Observable<any>{
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/yarn/jobs/${id}`, {"inputFile" : inputFilePath, "dir" : outputDirPath});
+  }
+
+  readFile(filePath: string, page: number): Observable<any>{
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/hdfs/readfile`,{"filePath": filePath, "page":page});
+  }
+
+  readRawFile(filePath: string, page: number): Observable<any>{
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/hdfs/readrawfile`,{"filePath": filePath, "page":page});
+  }
   
 }

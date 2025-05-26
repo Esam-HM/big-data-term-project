@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from hdfs_services import *
-from ssh_utils import toggleHDFS, isHadoopRunning, toggleYarn
+from ssh_utils import toggleHDFS, isHadoopRunning, toggleYarn, submitJob
 
 app = Flask(__name__)
 CORS(app)
@@ -98,6 +98,41 @@ def upload_to_hdfs():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route("/api/hdfs/readfile",methods=["POST"])
+def read_file_with_pagination():
+    data = request.get_json()
+
+    filePath = data.get("filePath")
+    pageNumber = data.get("page")
+
+    try:
+        sl, el = paginate(pageNumber, 300)
+        lines = readFile(filePath,sl,el)
+
+        return jsonify({"lines", lines}), 200
+
+    except Exception as e:
+
+        return jsonify({"error", str(e)}), 500
+
+@app.route("/api/hdfs/readrawfile",methods=["POST"])
+def read__raw_file_with_pagination():
+    data = request.get_json()
+
+    filePath = data.get("filePath")
+    pageNumber = int(data.get("page"))
+
+    try:
+        sl, el = paginate(pageNumber, 300)
+        lines = readRawFileData(filePath,sl,el)
+
+        return jsonify(lines), 200
+
+    except Exception as e:
+
+        return jsonify({"error", str(e)}), 500
+    
+
 @app.route("/api/hdfs/getallfiles")
 def get_all_files():
     try:
@@ -106,7 +141,7 @@ def get_all_files():
         return jsonify({"files" : files}), 200
 
     except Exception as e:
-        return jsonify({"files":[]}), 500
+        return jsonify({"error":str(e)}), 500
     
 
 @app.route("/api/hdfs/getallpaths")
@@ -133,6 +168,23 @@ def delete_path():
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/yarn/jobs/<job_id>", methods=["POST"])
+def submit_job(job_id):
+    data = request.get_json()
+    
+    try:
+        code, res = submitJob(job_id, data.get("inputFile"), data.get("dir"))
+
+        if code == 0:
+            return jsonify({"status": f"Job Submitted successfully"}), 200
+        
+        return jsonify({"error": f" >> {res}"}), 200
+        
+    except Exception as e:
+        return jsonify({"error" : str(e)}), 500
+    
 
 
 if __name__ =="__main__":

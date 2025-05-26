@@ -3,15 +3,67 @@ import os
 
 client = InsecureClient("http://192.168.56.102:9870", user="esam")
 
+def paginate(page: int, size: int):
+    start = (page-1)*size
+    
+    return start, start+size
 
 # Read file from HDFS
-def readFile(filePath: str):
+def readFile(filePath: str, startLine: int, endLine: int):
     """
-    Read file from HDFS
+    Read lines from HDFS file between startLine and endLine (zero-based, end exclusive).
+
+    :param filePath: Path to the HDFS file.
+    :param startLine: First line index to read (inclusive).
+    :param endLine: Last line index to read (exclusive).
     """
-    with client.read(filePath, encoding="utf-8") as reader:
-        content = reader.read().split("\n")
-    return content
+
+    lines = []
+    try:
+        with client.read(filePath, encoding="utf-8", delimiter="\n") as reader:
+            for i, line in enumerate(reader):
+                if i>=startLine and i<endLine:
+                    lines.append(line.split("\t"))
+                
+                elif i>=endLine:
+                    break
+
+        return lines            
+    
+    except Exception as e:
+        raise e
+
+def readRawFileData(filePath: str, startLine: int, endLine: int):
+    lines = []
+    try:
+        with client.read(filePath, encoding="utf-8", delimiter="\n") as reader:
+            for i, line in enumerate(reader):
+                if i>=startLine and i<endLine:
+                    lines.append(line)
+                
+                elif i>=endLine:
+                    break
+
+        return lines            
+    
+    except Exception as e:
+        raise e
+    
+
+def countLines(filePath: str):
+    """
+    """
+    totalLines = 0
+    try:
+        with client.read(filePath, encoding="utf-8", delimiter="\n") as reader:
+            for line in reader:
+                totalLines +=1
+
+        return totalLines           
+    
+    except Exception as e:
+        raise e
+            
 
 def writeFile(targetPath: str, file_stream):
     """
@@ -23,7 +75,6 @@ def writeFile(targetPath: str, file_stream):
             chunk_size = 1024 * 1024  # 1 MB
             while True:
                 chunk = file_stream.read(chunk_size)
-                print(chunk)
                 if not chunk:
                     break
                 writer.write(chunk)

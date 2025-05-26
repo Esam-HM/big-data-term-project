@@ -59,20 +59,29 @@ def isHadoopRunning():
 
     return code ,["NameNode" and "DataNode" in msg, "ResourceManager" and "NodeManager" in msg]
 
-def main():
-    #status, res = sendSSHCommand('/home/esam/hadoop/bin/hadoop jar /media/sf_New_folder/ParcticeOne.jar /user/esam/input/data.txt /user/esam/deneJar')
+def submitJob(job_id : str, inputFilePath: str, outputDirPath: str):
 
-    # if status == 0:
-    #     print(f"successf:  {res}")
-    # else:
-    #     print(f"Error happend: {res}")
+    jar_path = JobsPaths.get(job_id)
 
-    code, result = sendSSHCommand("/bin/bash -lc '/home/esam/hadoop/sbin/start-dfs.sh'")
-    if code == 0:
-        print("HDFS started:", result)
-    else:
-        print("Failed to start HDFS:", result)
+    if jar_path is None:
+        return 1, f"'{job_id}' not found."
 
+    try:
+        command = f"/home/esam/hadoop/bin/hadoop jar {jar_path} {inputFilePath} {outputDirPath}"
 
-if __name__ == "__main__":
-    main()
+        code , msg = sendSSHCommand(command)
+
+        return code, msg
+
+    except Exception as e:
+        raise e
+    
+
+JobsPaths = {
+    "1" : "/media/sf_New_folder/jobs/MovieRatingsCount.jar",
+    "2" : "/media/sf_New_folder/jobs/MovieMinMaxRatings",
+    "3" : "/media/sf_New_folder/jobs/MovieRatingsAverage",
+    "4" : "/media/sf_New_folder/jobs/MovieRatingsStdDeviation",
+    "5" : "/media/sf_New_folder/jobs/MovieRatingsCV",
+    "6" : "/media/sf_New_folder/jobs/MovieRatingSkewness"
+}
