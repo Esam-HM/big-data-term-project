@@ -13,12 +13,12 @@
         </app-spinner>
 
         <div class="row mt-4">
-            <!-- Add New File -->
+            <!-- Submit Job -->
             <div class="col-12">
-                <div class="p-3 border border-2 border-black rounded-3" style="height: 360px;">
+                <div class="p-3 border border-2 border-black rounded-3 shadow" style="height: 360px;">
                     <h4 class="mt-2">{{jobNameGetter}}</h4>
                     <div class="mt-4">
-                        <label class="form-label">HDFS Path:</label>
+                        <label class="form-label">File HDFS Path:</label>
                         <app-auto-complete-input 
                             [suggestions]="allFiles" 
                             [inputValue]="inputFilePath"
@@ -28,7 +28,7 @@
                         <div><small class="text-muted">** Path must start with "/"</small></div>
                     </div>
                     <div class="mt-4">
-                        <label class="form-label">HDFS Path:</label>
+                        <label class="form-label">Dir HDFS Path:</label>
                         <app-auto-complete-input 
                             [suggestions]="allDirs" 
                             [inputValue]="outputDirPath"
@@ -38,15 +38,69 @@
                         <div><small class="text-muted">** Path must start with "/"</small></div>
                     </div>
                     <div class="mt-4">
-                        <button (click)="onSubmitBtnClicked()" class="btn btn-primary">
+                        <button [disabled]="inputFilePath.trim()=='' || outputDirPath.trim()==''" (click)="onSubmitBtnClicked()" class="btn btn-primary">
                             <i class="bi bi-arrow-right-square"></i> Submit
                         </button>
                     </div>
                 </div>
             </div>
+            <!-- Job Result Display -->
         </div>
+        <ng-container *ngIf="jobSubmitted">
+            <div class="row mt-4 mb-4">
+                <div class="col-12">
+                    <div class="p-3 border border-2 border-black rounded-3 shadow">
+                        <h4>Job Result</h4>
+                        <div class="mt-2 mb-3">
+                            <label class="form-label">File HDFS Path:</label>
+                            <app-auto-complete-input 
+                                [inputValue]="filePathToRead"                                    [suggestions]="allFiles"
+                                (inputValueChanged)="filePathToRead=$event"
+                                placeholder="HDFS file path (e.g., /directory/subdirectory/example.txt)">
+                            </app-auto-complete-input>
+                            <div><small class="text-muted">** Path must start with "/"</small></div>
+                            <div class="mt-2 d-flex align-items-center">
+                                <input 
+                                    type="number" 
+                                    class="form-control w-auto me-3" 
+                                    [(ngModel)]="pageNumber" 
+                                    placeholder="page number (e.g, 1,2..)"
+                                >
+                                <span class="text-muted ms-3"><small>Not: 300 lines per page will be retrieved</small></span>
+                            </div>
+                            <button 
+                                [disabled]="filePathToRead.trim()=='' || !pageNumber || pageNumber.toString().trim()==''" 
+                                (click)="onShowBtnClicked()" class="btn btn-primary mt-3 mb-3">
+                                    <i class="bi bi-body-text"></i> Get Results
+                            </button>
+                        </div>
+                        <ng-container *ngIf="results">
+                            <div style="max-height: 400px;" class="overflow-y-auto">
+                                <table class="mt-3 table table-striped table-hover table-borderless w-100">
+                                    <thead>
+                                        <tr class="table-secondary text-black">
+                                            <th class="p-2 border border-2 border-white">#</th>
+                                            <th class="p-2 border border-2 border-white">Movie</th>
+                                            <th class="p-2 border border-2 border-white">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let result of results; let i = index">
+                                            <td class="p-2 border border-2 border-white text-black">{{ i+1 }}</td>
+                                            <td class="p-2 border border-2 border-white text-black">{{ result[0] }}</td>
+                                            <td class="p-2 border border-2 border-white text-black">{{ result[1] }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </div>
 </ng-container>
+
 <ng-template #noJobIdFound>
     <div class="alert alert-warning">
         Could not Found the job

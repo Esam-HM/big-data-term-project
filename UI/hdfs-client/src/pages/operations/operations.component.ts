@@ -76,7 +76,7 @@ export class OperationsComponent implements OnDestroy, OnInit{
 
         },error : (err) => {
           this.showSpinner = false;
-          this.showAlertBox(`Could Not ${this.hdfsBtnTxt} Yarn. Try Again...`,0);
+          this.showAlertBox(`Could Not ${this.hdfsBtnTxt} HDFS. Try Again...`,0);
           console.log("Error Happened", err.message);
         }
       })

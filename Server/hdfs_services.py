@@ -23,7 +23,8 @@ def readFile(filePath: str, startLine: int, endLine: int):
         with client.read(filePath, encoding="utf-8", delimiter="\n") as reader:
             for i, line in enumerate(reader):
                 if i>=startLine and i<endLine:
-                    lines.append(line.split("\t"))
+                    if line:
+                        lines.append(line.split("\t"))
                 
                 elif i>=endLine:
                     break
@@ -39,7 +40,8 @@ def readRawFileData(filePath: str, startLine: int, endLine: int):
         with client.read(filePath, encoding="utf-8", delimiter="\n") as reader:
             for i, line in enumerate(reader):
                 if i>=startLine and i<endLine:
-                    lines.append(line)
+                    if line:
+                        lines.append(line)
                 
                 elif i>=endLine:
                     break

@@ -103,17 +103,17 @@ def read_file_with_pagination():
     data = request.get_json()
 
     filePath = data.get("filePath")
-    pageNumber = data.get("page")
+    pageNumber = int(data.get("page"))
 
     try:
         sl, el = paginate(pageNumber, 300)
         lines = readFile(filePath,sl,el)
 
-        return jsonify({"lines", lines}), 200
+        return jsonify({"lines": lines}), 200
 
     except Exception as e:
 
-        return jsonify({"error", str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/api/hdfs/readrawfile",methods=["POST"])
 def read__raw_file_with_pagination():
@@ -130,7 +130,7 @@ def read__raw_file_with_pagination():
 
     except Exception as e:
 
-        return jsonify({"error", str(e)}), 500
+        return jsonify({"error": str(e)}), 500
     
 
 @app.route("/api/hdfs/getallfiles")
