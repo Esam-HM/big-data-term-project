@@ -65,4 +65,25 @@
             </div>
         </div>
     </div>
+    <div class="row mt-4 mb-4">
+        <div class="col-12">
+            <div class="p-3 border border-2 border-black rounded-3 shadow">
+                <h4 class="mt-2">List Dir Content </h4>
+                <div class="mt-4">
+                    <label class="form-label">HDFS Dir Path:</label>
+                    <app-auto-complete-input 
+                        [inputValue]="dirPathToList"
+                        [suggestions]="allDirs"
+                        (inputValueChanged)="dirPathToList = $event"
+                        placeholder="hdfs dir path (e.g., /directory/subdirectory/existingDir)">
+                    </app-auto-complete-input>
+                    <div><small class="text-muted">** Path must start with "/"</small></div>
+                </div>
+                <button (click)="onListBtnClicked()" [disabled]="dirPathToList.trim()==''" class="btn btn-primary mt-3">
+                        <i class="bi bi-list"></i> List
+                </button>
+                <textarea [value]="listedPaths" readonly class="d-block mt-3 w-100"></textarea>
+            </div>
+        </div>
+    </div>
 </div>

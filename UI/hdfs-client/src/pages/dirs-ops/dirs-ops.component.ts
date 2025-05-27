@@ -21,6 +21,10 @@ export class DirsOpsComponent implements OnInit, OnDestroy {
 
   dirPathToDelete : string = "";
 
+  dirPathToList : string = "";
+
+  listedPaths : string[] = [];
+
   allDirs : string[] = [];
 
   // alert component controls
@@ -33,6 +37,7 @@ export class DirsOpsComponent implements OnInit, OnDestroy {
   createDirSubscription? : Subscription;
   deleteDirSubscription? : Subscription;
   getDirsSubscription? : Subscription;
+  listPathsSubscription? : Subscription;
 
   ngOnInit(): void {
     this.showSpinner = true;
@@ -45,6 +50,24 @@ export class DirsOpsComponent implements OnInit, OnDestroy {
       error : (error) => {
         this.showSpinner = false;
         console.log("error getting all");
+      }
+    });
+  }
+
+  onListBtnClicked() : void {
+    this.showSpinner = true;
+    this.listPathsSubscription = this.hdfsService.getDirContent(this.dirPathToList).subscribe({
+      next: (response) => {
+        this.listedPaths = response["content"];
+        this.showSpinner = false;
+        if(this.listedPaths.length == 0){
+          this.showAlertBox(`${this.dirPathToList} is Empty`,2);
+        }
+      },
+      error : (errorResponse) => {
+        console.log(errorResponse.error["error"]);
+        this.showSpinner = false;
+        this.showAlertBox("Failed to read directory content.",0);
       }
     });
   }

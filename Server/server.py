@@ -58,6 +58,18 @@ def startStopYarn():
 
 
 ## Dir APIs
+@app.route("/api/hdfs/getdircontent", methods=["POST"])
+def get_dir_content():
+    data = request.get_json()
+    dir_path = data.get("dir")
+
+    try:
+        content = getDirContent(dir_path)
+
+        return jsonify({"content": content}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route("/api/hdfs/getDirs", methods=["GET"])
 def getDirs():
     allDirs = getAllDirs(["/user"])

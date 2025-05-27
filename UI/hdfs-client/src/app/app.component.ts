@@ -13,9 +13,9 @@ declare var particlesJS: any;
 export class AppComponent implements AfterViewInit {
   
   ngAfterViewInit(): void {
-    // particlesJS.load("particles-js", "particles.json", () => {
-    //   console.log("callback - particles loaded");
-    // });
+    particlesJS.load("particles-js", "particles.json", () => {
+      console.log("callback - particles loaded");
+    });
   }
 
 }

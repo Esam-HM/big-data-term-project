@@ -23,6 +23,10 @@ export class HdfsServicesService {
     return this.http.post<any>(`${environment.apiBaseUrl}/api/hdfs/toggleYarn`,{"status" : toggle});
   }
 
+  getDirContent(dirPath : string): Observable<any>{
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/hdfs/getdircontent`,{"dir": dirPath});
+  }
+
   getAllDirs(): Observable<any>{
     return this.http.get<any>(`${environment.apiBaseUrl}/api/hdfs/getDirs`);
   }

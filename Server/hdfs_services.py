@@ -106,6 +106,15 @@ def createDirectory(hdfs_path: str):
         return 0
     except Exception as e:
         raise e
+    
+def getDirContent(dir : str):
+    try:
+        allContent = []
+        allContent = client.list(dir)
+
+        return allContent
+    except Exception as e:
+        raise e
 
 
 def getAllDirs(dirs: list):
