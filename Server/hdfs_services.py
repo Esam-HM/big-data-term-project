@@ -90,7 +90,7 @@ def deletePath(hdfs_path: str):
     Delete file or directory.
     """
     try:
-        was_deleted = client.delete(hdfs_path, recursive=False)
+        was_deleted = client.delete(hdfs_path, recursive=True)
         
         return was_deleted
     
@@ -208,23 +208,3 @@ def exists(hdfsPath: str):
         return status is not None
     except:
         return False
-
-# # Write raw string data to HDFS
-# def writeText(hdfsPath: str, data: str):
-#     with client.write(hdfsPath, encoding='utf-8', overwrite=True) as writer:
-#         writer.write(data)
-#     return hdfsPath
-
-# # Upload local file to HDFS
-# def writeFile(targetPath: str, filePath: str):
-#     uploadedPath = client.upload(targetPath, filePath, overwrite=True)
-#     return uploadedPath
-
-# # Read raw string data from HDFS
-# def readText(hdfsPath: str):
-#     with client.read(hdfsPath, encoding='utf-8') as reader:
-#         return reader.read()
-
-# # Delete file or directory from HDFS
-# def deletePath(hdfsPath: str):
-#     return client.delete(hdfsPath, recursive=True)

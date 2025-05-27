@@ -78,10 +78,10 @@ def submitJob(job_id : str, inputFilePath: str, outputDirPath: str):
     
 
 JobsPaths = {
-    "1" : "/media/sf_New_folder/jobs/MovieRatingsCount.jar",
-    "2" : "/media/sf_New_folder/jobs/MovieMinMaxRatings.jar",
+    "1" : "/media/sf_New_folder/jobs/MovieRatingCount.jar",
+    "2" : "/media/sf_New_folder/jobs/MovieMinMaxRating.jar",
     "3" : "/media/sf_New_folder/jobs/MovieRatingAverage.jar",
-    "4" : "/media/sf_New_folder/jobs/MovieRatingsStdDeviation.jar",
-    "5" : "/media/sf_New_folder/jobs/MovieRatingsCV.jar",
-    "6" : "/media/sf_New_folder/jobs/MovieRatingSkewness.jar"
+    "4" : "/media/sf_New_folder/jobs/MovieRatingStdDeviation.jar",
+    "5" : "/media/sf_New_folder/jobs/MovieRatingCV.jar",
+    "6" : "/media/sf_New_folder/jobs/MovieSkewnessRating.jar"
 }
