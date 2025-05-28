@@ -24,7 +24,7 @@ def readFile(filePath: str, startLine: int, endLine: int):
             for i, line in enumerate(reader):
                 if i>=startLine and i<endLine:
                     if line:
-                        lines.append(line.split("\t"))
+                        lines.append(line.split("\t",1))
                 
                 elif i>=endLine:
                     break

@@ -110,6 +110,8 @@ export class FilesOpsComponent implements OnInit, OnDestroy {
       next: (response) => {
         if(response["deleted"]){
           this.showAlertBox(`File : ${response["path"]} Deleted Successfully`,1);
+          const index : number = this.allFiles.indexOf(this.deleteFilePath);
+          this.allFiles.splice(index,1);
         }else{
           this.showAlertBox(`Could Not Delete File ${response["path"]}`,0);
         }

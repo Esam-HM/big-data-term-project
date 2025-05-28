@@ -47,6 +47,9 @@ export class JobWorkerComponent implements OnInit, OnDestroy {
   showResultsSubscription? : Subscription;
 
   onSubmitBtnClicked() : void{
+    if(this.isDirPathExist()){
+      return;
+    }
     this.jobSubmitted = false;
     this.showSpinner = true;
     this.spinnerMessage = "Running Job..."
@@ -65,6 +68,15 @@ export class JobWorkerComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  isDirPathExist(): boolean {
+    if(this.allDirs.indexOf(this.outputDirPath)!=-1){
+      this.showAlertBox("Directory Already Exist. Please Write add new directory to directory path",0);
+      return true;
+    }
+
+    return false;
   }
 
   onShowBtnClicked(): void{

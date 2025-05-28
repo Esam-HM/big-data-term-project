@@ -95,4 +95,5 @@ def readHDFSFile():
 
 
 if __name__ == "__main__":
-    readHDFSFile()
+    #readHDFSFile()
+    print(submitJob("2","/user/esam/input/data.csv","/user/esam/minmax1"))
